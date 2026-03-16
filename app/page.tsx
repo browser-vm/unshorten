@@ -2,10 +2,20 @@
 
 import { useState } from 'react';
 
+interface UnshortenResult {
+  success: boolean;
+  input_url: string;
+  final_url?: string;
+  redirect_count?: number;
+  redirect_chain?: string[];
+  time_taken_seconds: number;
+  error?: string;
+}
+
 export default function Home() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<UnshortenResult | null>(null);
   const [error, setError] = useState('');
 
   const handleUnshorten = async (e: React.FormEvent) => {
@@ -26,7 +36,7 @@ export default function Home() {
       } else {
         setResult(data);
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred while reaching the server.');
     } finally {
       setLoading(false);

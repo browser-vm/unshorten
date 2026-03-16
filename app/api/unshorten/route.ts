@@ -38,9 +38,10 @@ export async function GET(request: Request) {
     const data = await response.json();
     return NextResponse.json(data);
     
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to process request';
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to process request' },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }
